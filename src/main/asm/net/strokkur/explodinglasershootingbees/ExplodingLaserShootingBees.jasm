@@ -1,5 +1,58 @@
-.class public ExplodingLaserShootingBees {
+.super org/bukkit/plugin/java/JavaPlugin
+.class public net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees {
 
+    .method public <init> ()V {
+        code: {
+            aload this
+            invokespecial org/bukkit/plugin/java/JavaPlugin.<init> ()V
+            return
+        }
+    }
 
+    .method public onLoad ()V {
+        parameters: { this },
+        code: {
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
 
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc "  ____  ______ ______  _____ "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " |  _ \|  ____|  ____|/ ____|"
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " | |_) | |__  | |__  | (___  "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " |  _ <|  __| |  __|  \___ \ "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " | |_) | |____| |____ ____) |"
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " |____/|______|______|_____/ "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
+            ldc " "
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            return
+        }
+    }
 }
