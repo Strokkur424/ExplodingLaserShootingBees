@@ -20,13 +20,13 @@ do
   if [[ $REPLY == $SRCROOT* ]];
   then
     FILE=${REPLY:${#SRCROOT}}
-    
+
     SRCFILE=$REPLY
     CLASSFILE="${TARGET}${FILE}"
     CLASSFILE="${CLASSFILE:0:${#CLASSFILE}-5}.class"
-    
+
     echo "| compiling ${SRCFILE}..."
-    
+
     CMD="$BASECMD compile $SRCFILE -o=$CLASSFILE"
     $CMD
   fi

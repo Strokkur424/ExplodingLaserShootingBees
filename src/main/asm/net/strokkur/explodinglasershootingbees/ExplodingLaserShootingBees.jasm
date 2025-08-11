@@ -1,3 +1,4 @@
+.sourcefile "ExplodingLaserShootingBees.jasm"
 .super org/bukkit/plugin/java/JavaPlugin
 .class public net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees {
 
@@ -12,6 +13,7 @@
     .method public onLoad ()V {
         parameters: { this },
         code: {
+            line 0
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
             ldc " "
@@ -24,7 +26,7 @@
 
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
-            ldc " |  _ \|  ____|  ____|/ ____|"
+            ldc " |  _ \\|  ____|  ____|/ ____|"
             invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
 
             aload this
@@ -34,7 +36,7 @@
 
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
-            ldc " |  _ <|  __| |  __|  \___ \ "
+            ldc " |  _ <|  __| |  __|  \\___ \\ "
             invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
 
             aload this
@@ -51,6 +53,25 @@
             invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getLogger ()Ljava/util/logging/Logger;
             ldc " "
             invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            return
+        }
+    }
+
+    .method public onEnable ()V {
+        parameters: { this },
+        code: {
+            line 0
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getServer ()Lorg/bukkit/Server;
+            invokeinterface org/bukkit/Server.getPluginManager ()Lorg/bukkit/plugin/PluginManager;
+
+            line 1
+            new net/strokkur/explodinglasershootingbees/listeners/EntityListeners
+            dup
+            invokespecial net/strokkur/explodinglasershootingbees/listeners/EntityListeners.<init> ()V
+            aload this
+            invokeinterface org/bukkit/plugin/PluginManager.registerEvents (Lorg/bukkit/event/Listener;Lorg/bukkit/plugin/Plugin;)V
 
             return
         }

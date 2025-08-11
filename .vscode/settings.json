@@ -1,10 +1,20 @@
 {
     "cSpell.words": [
+        "aastore",
         "aload",
+        "anewarray",
+        "astore",
         "explodinglasershootingbees",
+        "iastore",
+        "invokedynamic",
+        "invokeinterface",
         "invokespecial",
+        "invokestatic",
         "invokevirtual",
         "Ljava",
+        "Lnet",
+        "Lorg",
+        "newarray",
         "strokkur"
     ]
 }
