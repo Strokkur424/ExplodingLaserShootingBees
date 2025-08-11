@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+JARNAME="ExplodingLaserShootingBees-1.0.0.jar"
+
+JASM="./lib/JASM-cli-2.9.0-all.jar"
+BASECMD="java -jar ${JASM}"
+
+SRCROOT="./src/main/asm/"
+RESOURCESROOT="./src/main/resources"
+
+TARGET="./build/jar/"
+
+# Cleanup build directory
+rm -r $TARGET
+
+# Compile all files
+echo "Compiling class files"
+while IFS= read -r -d '' -u 9
+do
+  if [[ $REPLY == $SRCROOT* ]];
+  then
+    FILE=${REPLY:${#SRCROOT}}
+    
+    SRCFILE=$REPLY
+    CLASSFILE="${TARGET}${FILE}"
+    CLASSFILE="${CLASSFILE:0:${#CLASSFILE}-5}.class"
+    
+    echo "| compiling ${SRCFILE}..."
+    
+    CMD="$BASECMD compile $SRCFILE -o=$CLASSFILE"
+    $CMD
+  fi
+done 9< <( find . -type f -exec printf '%s\0' {} + )
+
+# Copy over paper-plugin.yml
+echo ""
+echo "Copying resources"
+echo "| copying paper-plugin.yml"
+cp "${RESOURCESROOT}/paper-plugin.yml" "${TARGET}/paper-plugin.yml"
+
+# Create a nice jar
+echo ""
+echo "Creating jar file."
+cd $TARGET || exit
+jar --create --file ../libs/$JARNAME .
+
+echo "Done!"
