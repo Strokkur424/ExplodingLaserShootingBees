@@ -1,0 +1,174 @@
+{
+  "name": "Java Assembler",
+  "fileTypes": ["jasm"],
+  "scopeName": "source.jasm",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#directives" },
+    { "include": "#brackets" },
+    { "include": "#labels" },
+    { "include": "#instructions" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#annotations" },
+    { "include": "#returnTypes" },
+    { "include": "#methodRefs" },
+    { "include": "#superClassNames" },
+    { "include": "#classClassNames" },
+    { "include": "#invokeParameterTypes" },
+    { "include": "#declaredMethodNames" },
+    { "include": "#genericLabels" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.jasm",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.jasm",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.jasm",
+          "match": "(?<=^|\\s)\\.(?:[A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "keyword.control.jasm",
+          "match": "\\b(?:public|private|protected|static|final|native|abstract|interface|synthetic|strict|annotation|enum|synchronized|bridge|varargs|this)\\b"
+        }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        {
+          "name": "keyword.directive.jasm",
+          "match": "\\.(source|class|super|method|end method|field|end field|limit stack|limit locals|line)\\b"
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "name": "punctuation.section.brackets.jasm",
+          "match": "[\\{\\}\\(\\)]"
+        }
+      ]
+    },
+    "labels": {
+      "patterns": [
+        {
+          "name": "entity.name.label.jasm",
+          "match": "^(\\s*)([A-Za-z0-9_]+):(?=\\s)"
+        }
+      ]
+    },
+    "genericLabels": {
+      "patterns": [
+        {
+          "name": "entity.name.label.generic.jasm",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*:(?!:)"
+        }
+      ]
+    },
+    "instructions": {
+      "patterns": [
+        {
+          "name": "keyword.instruction.jasm",
+          "match": "^(\\s+)([a-z][a-z0-9_]*)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.jasm",
+          "match": "\"(?:[^\"\\\\]|\\\\.)*\""
+        },
+        {
+          "name": "string.quoted.single.jasm",
+          "match": "'(?:[^'\\\\]|\\\\.)*'"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.jasm",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.jasm",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "annotations": {
+      "patterns": [
+        {
+          "name": "storage.type.annotation.jasm",
+          "match": "@[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    "returnTypes": {
+      "patterns": [
+        {
+          "name": "entity.name.type.return.jasm",
+          "match": "(?<=\\)\\s*)(?:[BCDFIJSZV]|L[^;]+;)"
+        }
+      ]
+    },
+    "methodRefs": {
+      "patterns": [
+        {
+          "name": "meta.method.reference.jasm",
+          "match": "(?<=\\s|^)([A-Za-z0-9_/]+)\\.([A-Za-z0-9_<>$]+)",
+          "captures": {
+            "1": { "name": "entity.name.type.class.jasm" },
+            "2": { "name": "entity.name.function.method.jasm" }
+          }
+        }
+      ]
+    },
+    "superClassNames": {
+      "patterns": [
+        {
+          "name": "entity.name.type.class.jasm",
+          "match": "(?<=\\.super\\s)([A-Za-z0-9_/]+)"
+        }
+      ]
+    },
+    "classClassNames": {
+      "patterns": [
+        {
+          "name": "entity.name.type.class.jasm",
+          "match": "(?<=\\.class\\s(?:public\\s)?)\\s*([A-Za-z0-9_/]+)"
+        }
+      ]
+    },
+    "invokeParameterTypes": {
+      "patterns": [
+        {
+          "name": "entity.name.type.class.jasm",
+          "match": "(?<=\\()([BCDFIJSZV]|L[^;]+;)+(?=\\))"
+        }
+      ]
+    },
+    "declaredMethodNames": {
+      "patterns": [
+        {
+          "name": "entity.name.function.method.jasm",
+          "match": "(?<=\\.method\\s(?:public|private|protected|static|final|native|abstract|synchronized|bridge|varargs|strict|synthetic|annotation|interface|enum|constructor|)<*\\s*)[A-Za-z0-9_<>{}$]+"
+        }
+      ]
+    }
+  },
+}

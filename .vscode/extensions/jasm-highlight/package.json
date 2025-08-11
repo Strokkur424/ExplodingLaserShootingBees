@@ -1,0 +1,37 @@
+{
+  "name": "jasm-highlight",
+  "displayName": "JASM-Highlight",
+  "description": "A simple syntax highlight plugin for (jumanji) jasm",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jasm",
+        "aliases": [
+          "Jasm",
+          "jasm"
+        ],
+        "extensions": [
+          ".jasm"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jasm",
+        "scopeName": "source.jasm",
+        "path": "./syntaxes/jasm.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.8"
+  }
+}
