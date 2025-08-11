@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
+echo "Current working directory: $PWD"
+
 JARNAME="ExplodingLaserShootingBees-1.0.0.jar"
 
-JASM="./lib/JASM-cli-2.9.0-all.jar"
+JASM="lib/jasm-cli-2.9.0-all.jar"
 BASECMD="java -jar ${JASM}"
 
 SRCROOT="./src/main/asm/"
 RESOURCESROOT="./src/main/resources"
 
-TARGET="./build/jar/"
+TARGET="./build/jar"
 
 # Cleanup build directory
-rm -r $TARGET
+if [ -d $TARGET ]; then
+  rm -r $TARGET
+fi
 
 # Compile all files
 echo "Compiling class files"
@@ -22,7 +26,7 @@ do
     FILE=${REPLY:${#SRCROOT}}
 
     SRCFILE=$REPLY
-    CLASSFILE="${TARGET}${FILE}"
+    CLASSFILE="${TARGET}/${FILE}"
     CLASSFILE="${CLASSFILE:0:${#CLASSFILE}-5}.class"
 
     echo "| compiling ${SRCFILE}..."
