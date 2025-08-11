@@ -1,0 +1,92 @@
+.sourcefile "BeeRunnable.jasm"
+.implements java/util/function/Consumer
+.super java/lang/Object
+.class public net/strokkur/explodinglasershootingbees/listeners/BeeRunnable {
+
+    .field private final bee Lorg/bukkit/entity/Bee;
+    .field private final plugin Lorg/bukkit/plugin/java/JavaPlugin;
+    .field private tick I
+
+    .method public <init> (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V {
+        parameters: { this, bee, plugin },
+        code: {
+            aload this
+            dup
+            invokespecial java/lang/Object.<init> ()V
+
+            aload this
+            aload bee
+            putfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+
+            aload this
+            aload plugin
+            putfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.plugin Lorg/bukkit/plugin/java/JavaPlugin;
+
+            aload this
+            iconst_0
+            putfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.tick I
+
+            return
+        }
+    }
+
+    .visible-annotation java/lang/Override {}
+    .method public accept (Ljava/lang/Object;)V {
+        parameters: { this, task },
+        code: {
+            // Check if the bee is still valid
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+            invokeinterface org/bukkit/entity/Entity.isValid ()Z
+            ifeq CANCEL_TASK
+
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.tick I
+            iconst_1
+            iadd
+
+            dup
+            aload this
+            dup_x1
+            pop
+            putfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.tick I
+
+            dup
+            istore tick
+            bipush 20
+            irem
+            ifeq LOG
+            goto RETURN
+
+        LOG:
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.plugin Lorg/bukkit/plugin/java/JavaPlugin;
+            invokevirtual org/bukkit/plugin/java/JavaPlugin.getLogger ()Ljava/util/logging/Logger;
+
+            ldc 1
+            anewarray Ljava/lang/Object;
+            dup
+            ldc 0
+            iload tick
+            invokestatic java/lang/Integer.valueOf (I)Ljava/lang/Integer;
+            aastore
+            astore args
+
+            ldc "A loaded bee has been ticked. (Tick: %s)"
+            aload args
+            invokestatic java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+            goto RETURN
+
+        CANCEL_TASK:
+            aload task
+            checkcast io/papermc/paper/threadedregions/scheduler/ScheduledTask
+            invokeinterface io/papermc/paper/threadedregions/scheduler/ScheduledTask.cancel ()Lio/papermc/paper/threadedregions/scheduler/ScheduledTask$CancelledState;
+            pop
+
+        RETURN:
+            return
+        }
+    }
+}

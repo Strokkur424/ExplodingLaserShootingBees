@@ -4,7 +4,8 @@ echo "Current working directory: $PWD"
 
 JARNAME="ExplodingLaserShootingBees-1.0.0.jar"
 
-JASM="lib/jasm-cli-2.9.0-all.jar"
+JASM="jasm/jasm-cli-2.9.0-all.jar"
+LIBS="jasm/libs"
 BASECMD="java -jar ${JASM}"
 
 SRCROOT="./src/main/asm/"
@@ -31,7 +32,7 @@ do
 
     echo "| compiling ${SRCFILE}..."
 
-    CMD="$BASECMD compile $SRCFILE -o=$CLASSFILE"
+    CMD="$BASECMD compile $SRCFILE -o=$CLASSFILE -lib=$LIBS -ic=false"
     $CMD
   fi
 done 9< <( find . -type f -exec printf '%s\0' {} + )

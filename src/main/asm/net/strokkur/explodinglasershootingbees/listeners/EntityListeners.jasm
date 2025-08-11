@@ -12,50 +12,127 @@
     }
 
     .visible-annotation org/bukkit/event/EventHandler {}
+    .method onAddEntity (Lcom/destroystokyo/paper/event/entity/EntityAddToWorldEvent;)V {
+        parameters: { this, event },
+        code: {
+            aload event
+            invokevirtual com/destroystokyo/paper/event/entity/EntityAddToWorldEvent.getEntity ()Lorg/bukkit/entity/Entity;
+            dup
+            instanceof Lorg/bukkit/entity/Bee;
+            ifeq RETURN_NO_BEE
+
+            checkcast Lorg/bukkit/entity/Bee;
+            astore bee
+
+            // Get the plugin instance
+            invokestatic net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getInstance ()Lnet/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees;
+            astore plugin
+
+            aload this
+            aload bee
+            aload plugin
+            invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.scheduleBeeTask (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V
+
+        RETURN:
+            return
+
+        RETURN_NO_BEE:
+            pop
+            return
+        }
+    }
+
+    // .visible-annotation org/bukkit/event/EventHandler {}
     .method onEntitiesLoad (Lorg/bukkit/event/world/EntitiesLoadEvent;)V {
         parameters: { this, event },
         code: {
             line 0
+            // JavaPlugin plugin = JavaPlugin.getProvidingPlugin(this.getClass());
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.getClass ()Ljava/lang/Class;
             invokestatic org/bukkit/plugin/java/JavaPlugin.getProvidingPlugin (Ljava/lang/Class;)Lorg/bukkit/plugin/java/JavaPlugin;
-            invokevirtual org/bukkit/plugin/java/JavaPlugin.getLogger ()Ljava/util/logging/Logger;
-            astore logger
+            astore plugin
 
-            line 1
+            // List<Entity> = event.getEntities()
             aload event
             invokevirtual org/bukkit/event/world/EntitiesLoadEvent.getEntities ()Ljava/util/List;
-            invokeinterface java/util/List.size ()I
-            dup
-            istore size
 
-            line 2
-            i2l
-            lconst_0
-            lcmp
+            // int = List#size()
+            dup
+            invokeinterface java/util/List.size ()I
+
+        // Stack before this point -- list / size --
+        TRY_SCHEDULE:
+            // At the top of the stack is a int, check if it is 0 and return
+            // if (int == 0) return
+            dup
             ifeq RET
 
-            line 3
-            aload logger
+            // int--;
+            iconst_1
+            isub
 
-            line 4
-            ldc 1
-            anewarray Ljava/lang/Object;
+            // Current Stack -- list / size --
+            // Entity = List<Entity>#get
+            dup2
+            invokeinterface java/util/List.get (I)Ljava/lang/Object;
+
+            // Current Stack -- list / size / entity --
+            // if (!(Entity instanceof Bee bee)) continue;
             dup
-            ldc 0
-            iload size
-            invokestatic java/lang/Integer.valueOf (I)Ljava/lang/Integer;
-            aastore
-            astore args
+            instanceof Lorg/bukkit/entity/Bee;
+            ifeq CLEAN_TRY_SCHEDULE // If not a bee
 
-            line 5
-            ldc "An EntitiesLoadEvent was just executed. Loaded %s entities."
-            aload args
-            invokestatic java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+            checkcast Lorg/bukkit/entity/Bee;
+            astore bee
+            // Current Stack -- list / size / bee --
 
-            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+            aload this
+            aload bee
+            aload plugin
+            invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.scheduleBeeTask (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V
 
+            // Current Stack -- list / size --
+            goto TRY_SCHEDULE
         RET:
+            return
+
+        CLEAN_TRY_SCHEDULE:
+            pop
+            goto TRY_SCHEDULE
+        }
+    }
+
+    .method private scheduleBeeTask (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V {
+        parameters: { this, bee, plugin },
+        code: {
+            // Scheduler
+            aload bee
+            invokeinterface org/bukkit/entity/Bee.getScheduler ()Lio/papermc/paper/threadedregions/scheduler/EntityScheduler;
+
+            // Plugin
+            aload plugin
+
+            // Task
+            new net/strokkur/explodinglasershootingbees/listeners/BeeRunnable
+            dup
+            aload bee
+            aload plugin
+            invokespecial net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.<init> (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V
+
+            // Retired runnable
+            aconst_null
+
+            // Initial delay
+            lconst_1
+
+            // Period ticks
+            lconst_1
+
+            line 7
+            invokeinterface io/papermc/paper/threadedregions/scheduler/EntityScheduler.runAtFixedRate (Lorg/bukkit/plugin/Plugin;Ljava/util/function/Consumer;Ljava/lang/Runnable;JJ)Lio/papermc/paper/threadedregions/scheduler/ScheduledTask;
+            pop
+
             return
         }
     }

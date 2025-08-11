@@ -10,6 +10,7 @@
         }
     }
 
+    .visible-annotation java/lang/Override {}
     .method public onLoad ()V {
         parameters: { this },
         code: {
@@ -58,6 +59,7 @@
         }
     }
 
+    .visible-annotation java/lang/Override {}
     .method public onEnable ()V {
         parameters: { this },
         code: {
@@ -74,6 +76,15 @@
             invokeinterface org/bukkit/plugin/PluginManager.registerEvents (Lorg/bukkit/event/Listener;Lorg/bukkit/plugin/Plugin;)V
 
             return
+        }
+    }
+
+    .method public static getInstance ()Lnet/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees; {
+        code: {
+            ldc Lnet/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees;
+            invokestatic org/bukkit/plugin/java/JavaPlugin.getPlugin (Ljava/lang/Class;)Lorg/bukkit/plugin/java/JavaPlugin;
+            checkcast Lnet/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees;
+            areturn
         }
     }
 }
