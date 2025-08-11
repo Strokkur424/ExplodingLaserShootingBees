@@ -11,6 +11,7 @@
         "invokespecial",
         "invokestatic",
         "invokevirtual",
+        "lconst",
         "Ljava",
         "Lnet",
         "Lorg",

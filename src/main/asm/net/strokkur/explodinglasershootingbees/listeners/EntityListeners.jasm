@@ -1,5 +1,5 @@
 .sourcefile "EntityListeners.jasm"
-.implements org/bukkit/event/EventHandler
+.implements org/bukkit/event/Listener
 .super java/lang/Object
 .class public net/strokkur/explodinglasershootingbees/listeners/EntityListeners {
 
@@ -15,33 +15,47 @@
     .method onEntitiesLoad (Lorg/bukkit/event/world/EntitiesLoadEvent;)V {
         parameters: { this, event },
         code: {
+            line 0
             aload this
-            invokevirtual net/strokkur/explodinglasershootingbees/EntityListeners.getClass ()Ljava/lang/Class;
+            invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.getClass ()Ljava/lang/Class;
             invokestatic org/bukkit/plugin/java/JavaPlugin.getProvidingPlugin (Ljava/lang/Class;)Lorg/bukkit/plugin/java/JavaPlugin;
             invokevirtual org/bukkit/plugin/java/JavaPlugin.getLogger ()Ljava/util/logging/Logger;
             astore logger
 
+            line 1
             aload event
             invokevirtual org/bukkit/event/world/EntitiesLoadEvent.getEntities ()Ljava/util/List;
-            invokevirtual java/util/List.getSize ()I
+            invokeinterface java/util/List.size ()I
+            dup
             istore size
 
+            line 2
+            i2l
+            lconst_0
+            lcmp
+            ifeq RET
+
+            line 3
             aload logger
 
+            line 4
             ldc 1
             anewarray Ljava/lang/Object;
             dup
             ldc 0
-            aload size
+            iload size
+            invokestatic java/lang/Integer.valueOf (I)Ljava/lang/Integer;
             aastore
             astore args
 
+            line 5
             ldc "An EntitiesLoadEvent was just executed. Loaded %s entities."
             aload args
             invokestatic java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
             invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
 
+        RET:
             return
         }
     }
