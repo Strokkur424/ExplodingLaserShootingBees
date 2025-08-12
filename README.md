@@ -1,6 +1,6 @@
 # ExplodingLaserShootingBees [![Java CI](https://github.com/Strokkur424/ExplodingLaserShootingBees/actions/workflows/build.yml/badge.svg)](https://github.com/Strokkur424/ExplodingLaserShootingBees/actions/workflows/build.yml)
 
-Have **you** 🫵 ever thought 🤔 that **Bees 🐝 are boring**???? Not with
+Have **you** 🫵 ever thought 🤔 that **bees 🐝 are boring**???? Not with
 **ExplodingLaserShootingBees** 🔫!! Witness ✨ ***unparralleled*** performance
 thanks to writing the plugin **fully in JVM bytecode** 🏎️🏎️🏎️. As we all know,
 assemblers are **faster than compilers** 👍💖. Give it a try **now** 👮‍♀️.
@@ -9,10 +9,10 @@ https://github.com/user-attachments/assets/a0c39f6f-8bb8-4e2e-9d6b-057a5582db9e
 
 ## Features ✨
 - All bees 🐝 now explode if you get closer than 2 blocks ⚔️.
-- Bees 🅱️ fire **deadly lasers** 🔫 if you come closed than 20 blocks 🐍.
+- Bees 🅱️ fire **deadly lasers** 🔫 if you come closer than 20 blocks 🐍.
 
 ## Download it now!!! 🧆
-- Hangar (SOON)
+- [Hangar](https://hangar.papermc.io/Strokkur424/ExplodingLaserShootingBees/versions/)
 - Modrinth (SOON)
 - [GitHub](https://github.com/Strokkur424/ExplodingLaserShootingBees/releases)
 
