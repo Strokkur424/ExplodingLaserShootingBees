@@ -42,41 +42,23 @@
 
             aload this
             getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.tick I
-            iconst_1
-            iadd
+            istore tick
+            iinc tick 1
 
-            dup
             aload this
-            dup_x1
-            pop
+            iload tick
             putfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.tick I
 
-            dup
-            istore tick
-            bipush 20
+            iload tick
+            bipush 5
             irem
-            ifeq LOG
+            ifeq EXPLODE
+
             goto RETURN
 
-        LOG:
+        EXPLODE:
             aload this
-            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.plugin Lorg/bukkit/plugin/java/JavaPlugin;
-            invokevirtual org/bukkit/plugin/java/JavaPlugin.getLogger ()Ljava/util/logging/Logger;
-
-            ldc 1
-            anewarray Ljava/lang/Object;
-            dup
-            ldc 0
-            iload tick
-            invokestatic java/lang/Integer.valueOf (I)Ljava/lang/Integer;
-            aastore
-            astore args
-
-            ldc "A loaded bee has been ticked. (Tick: %s)"
-            aload args
-            invokestatic java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-            invokevirtual java/util/logging/Logger.info (Ljava/lang/String;)V
+            invokevirtual net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.handleExplosion ()V
             goto RETURN
 
         CANCEL_TASK:
@@ -86,6 +68,72 @@
             pop
 
         RETURN:
+            return
+        }
+    }
+
+    .method private handleExplosion ()V {
+        parameters: { this },
+        code: {
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+
+            invokeinterface org/bukkit/entity/Bee.getLocation ()Lorg/bukkit/Location;
+            dup
+            astore loc
+
+            ldc 3.0
+            invokevirtual org/bukkit/Location.getNearbyPlayers (D)Ljava/util/Collection;
+            dup
+            astore players
+            invokeinterface java/util/Collection.isEmpty ()Z
+            ifne RETURN
+
+            aload loc
+
+            // Explosion power
+            ldc 8.0f
+
+            // Fire and break blocks
+            iconst_1
+            iconst_1
+
+            invokevirtual org/bukkit/Location.createExplosion (FZZ)Z
+            ifne EXPLODED
+
+            // The explosion was cancelled, log a warning.
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.plugin Lorg/bukkit/plugin/java/JavaPlugin;
+            invokevirtual org/bukkit/plugin/java/JavaPlugin.getLogger ()Ljava/util/logging/Logger;
+            ldc "The bee explosion was cancelled. Do you have a plugin messing with explosion events?"
+            invokeinterface java/util/logging/Logger.info (Ljava/lang/String;)V
+
+            goto RETURN
+
+        EXPLODED:
+            aload players
+            invokedynamic accept ()Ljava/util/function/Consumer; LambdaMetafactory.metafactory {
+                (Ljava/lang/Object;)V,
+                {
+                    invokestatic,
+                    net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.sendBoom,
+                    (Lorg/bukkit/entity/Player;)V
+                },
+                (Lorg/bukkit/entity/Player;)V
+            }
+            invokeinterface java/util/Collection.forEach (Ljava/util/function/Consumer;)V
+
+        RETURN:
+            return
+        }
+    }
+
+    .method private static synthetic sendBoom (Lorg/bukkit/entity/Player;)V {
+        parameters: { p },
+        code: {
+            aload p
+            ldc "<b><shadow:white><i><yellow>B<c:black>O</c>O<c:black>O</c>O<c:black>O</c>O<black>M</b>"
+            invokeinterface org/bukkit/entity/Player.sendRichMessage (Ljava/lang/String;)V
             return
         }
     }

@@ -63,12 +63,10 @@
     .method public onEnable ()V {
         parameters: { this },
         code: {
-            line 0
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/ExplodingLaserShootingBees.getServer ()Lorg/bukkit/Server;
             invokeinterface org/bukkit/Server.getPluginManager ()Lorg/bukkit/plugin/PluginManager;
 
-            line 1
             new net/strokkur/explodinglasershootingbees/listeners/EntityListeners
             dup
             invokespecial net/strokkur/explodinglasershootingbees/listeners/EntityListeners.<init> ()V
@@ -76,6 +74,16 @@
             invokeinterface org/bukkit/plugin/PluginManager.registerEvents (Lorg/bukkit/event/Listener;Lorg/bukkit/plugin/Plugin;)V
 
             return
+        }
+    }
+
+    .method public isExempt (Lorg/bukkit/entity/Player;)Z {
+        parameters: { this, player },
+        code: {
+            aload player
+            ldc "explodinglasershootingbees.exempt"
+            invokeinterface org/bukkit/entity/Player.hasPermission (Ljava/lang/String;)Z
+            ireturn
         }
     }
 
