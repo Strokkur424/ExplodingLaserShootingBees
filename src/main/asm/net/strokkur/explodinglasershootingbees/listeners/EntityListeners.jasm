@@ -42,67 +42,6 @@
         }
     }
 
-    // .visible-annotation org/bukkit/event/EventHandler {}
-    .method onEntitiesLoad (Lorg/bukkit/event/world/EntitiesLoadEvent;)V {
-        parameters: { this, event },
-        code: {
-            line 0
-            // JavaPlugin plugin = JavaPlugin.getProvidingPlugin(this.getClass());
-            aload this
-            invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.getClass ()Ljava/lang/Class;
-            invokestatic org/bukkit/plugin/java/JavaPlugin.getProvidingPlugin (Ljava/lang/Class;)Lorg/bukkit/plugin/java/JavaPlugin;
-            astore plugin
-
-            // List<Entity> = event.getEntities()
-            aload event
-            invokevirtual org/bukkit/event/world/EntitiesLoadEvent.getEntities ()Ljava/util/List;
-
-            // int = List#size()
-            dup
-            invokeinterface java/util/List.size ()I
-
-        // Stack before this point -- list / size --
-        TRY_SCHEDULE:
-            // At the top of the stack is a int, check if it is 0 and return
-            // if (int == 0) return
-            dup
-            ifeq RET
-
-            // int--;
-            iconst_1
-            isub
-
-            // Current Stack -- list / size --
-            // Entity = List<Entity>#get
-            dup2
-            invokeinterface java/util/List.get (I)Ljava/lang/Object;
-
-            // Current Stack -- list / size / entity --
-            // if (!(Entity instanceof Bee bee)) continue;
-            dup
-            instanceof Lorg/bukkit/entity/Bee;
-            ifeq CLEAN_TRY_SCHEDULE // If not a bee
-
-            checkcast Lorg/bukkit/entity/Bee;
-            astore bee
-            // Current Stack -- list / size / bee --
-
-            aload this
-            aload bee
-            aload plugin
-            invokevirtual net/strokkur/explodinglasershootingbees/listeners/EntityListeners.scheduleBeeTask (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V
-
-            // Current Stack -- list / size --
-            goto TRY_SCHEDULE
-        RET:
-            return
-
-        CLEAN_TRY_SCHEDULE:
-            pop
-            goto TRY_SCHEDULE
-        }
-    }
-
     .method private scheduleBeeTask (Lorg/bukkit/entity/Bee;Lorg/bukkit/plugin/java/JavaPlugin;)V {
         parameters: { this, bee, plugin },
         code: {
