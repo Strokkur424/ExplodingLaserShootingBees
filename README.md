@@ -5,6 +5,8 @@ Have **you** 🫵 ever thought 🤔 that **Bees 🐝 are boring**???? Not with
 thanks to writing the plugin **fully in JVM bytecode** 🏎️🏎️🏎️. As we all know,
 assemblers are **faster than compilers** 👍💖. Give it a try **now** 👮‍♀️.
 
+https://github.com/user-attachments/assets/a0c39f6f-8bb8-4e2e-9d6b-057a5582db9e
+
 ## Features ✨
 - All bees 🐝 now explode if you get closer than 2 blocks ⚔️.
 - Bees 🅱️ fire **deadly lasers** 🔫 if you come closed than 20 blocks 🐍.
