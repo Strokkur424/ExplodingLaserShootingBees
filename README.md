@@ -12,8 +12,9 @@ https://github.com/user-attachments/assets/a0c39f6f-8bb8-4e2e-9d6b-057a5582db9e
 - Bees 🅱️ fire **deadly lasers** 🔫 if you come closed than 20 blocks 🐍.
 
 ## Download it now!!! 🧆
-- Hangar
-- Modrinth
+- Hangar (SOON)
+- Modrinth (SOON)
+- [GitHub](https://github.com/Strokkur424/ExplodingLaserShootingBees/releases)
 
 <br>
 

@@ -2,7 +2,7 @@
 
 echo "Current working directory: $PWD"
 
-JARNAME="ExplodingLaserShootingBees-1.0.1.jar"
+JARNAME="ExplodingLaserShootingBees-1.0.2.jar"
 
 JASM="jasm/jasm-cli-2.9.0-all.jar"
 LIBS="jasm/libs"
@@ -37,11 +37,13 @@ do
   fi
 done 9< <( find . -type f -exec printf '%s\0' {} + )
 
-# Copy over paper-plugin.yml
+# Copy over resources
 echo ""
 echo "Copying resources"
 echo "| copying paper-plugin.yml"
 cp "${RESOURCESROOT}/paper-plugin.yml" "${TARGET}/paper-plugin.yml"
+echo "| copying LICENSE"
+cp "${RESOURCESROOT}/LICENSE" "${TARGET}/LICENSE"
 
 # Create a nice jar
 echo ""
