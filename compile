@@ -2,7 +2,7 @@
 
 echo "Current working directory: $PWD"
 
-JARNAME="ExplodingLaserShootingBees-1.0.0.jar"
+JARNAME="ExplodingLaserShootingBees-1.0.1.jar"
 
 JASM="jasm/jasm-cli-2.9.0-all.jar"
 LIBS="jasm/libs"
