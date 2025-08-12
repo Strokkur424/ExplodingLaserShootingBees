@@ -1,11 +1,13 @@
 name: ExplodingLaserShootingBees
 version: 1.0.0
-api-version: '1.21'
+api-version: '1.20'
 
 author: Strokkur24
 description: A very stupid plugin which makes bees shoot lasers at you from afar and explode when you get close.
 
 main: net.strokkur.explodinglasershootingbees.ExplodingLaserShootingBees
+
+folia-supported: true
 
 permissions:
   explodinglasershootingbees.exempt:
