@@ -14,7 +14,9 @@
         "getstatic",
         "iadd",
         "iastore",
+        "icmple",
         "iconst",
+        "idiv",
         "ifeq",
         "ifne",
         "ifnq",
@@ -35,9 +37,11 @@
         "Lnet",
         "Lorg",
         "lsub",
+        "metafactory",
         "newarray",
         "papermc",
         "putfield",
+        "sipush",
         "strokkur",
         "threadedregions"
     ]

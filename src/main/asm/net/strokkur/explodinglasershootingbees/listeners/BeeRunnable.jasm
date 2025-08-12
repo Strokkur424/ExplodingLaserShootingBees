@@ -37,6 +37,8 @@
             // Check if the bee is still valid
             aload this
             getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+            dup
+            astore bee
             invokeinterface org/bukkit/entity/Entity.isValid ()Z
             ifeq CANCEL_TASK
 
@@ -54,11 +56,34 @@
             irem
             ifeq EXPLODE
 
+            iload tick
+            iinc tick 3 // A little bit of offset so the laser never fires with the explosion
+            bipush 32
+
+            aload bee
+            invokeinterface org/bukkit/entity/Bee.getAnger ()I
+            i2l
+            bipush 100
+            sipush 1000
+            invokestatic java/lang/Math.clamp (JII)I
+
+            bipush 100
+            idiv
+            isub
+
+            irem
+            ifeq LASER
+
             goto RETURN
 
         EXPLODE:
             aload this
             invokevirtual net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.handleExplosion ()V
+            goto RETURN
+
+        LASER:
+            aload this
+            invokevirtual net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.handleLaser ()V
             goto RETURN
 
         CANCEL_TASK:
@@ -128,12 +153,116 @@
         }
     }
 
-    .method private static synthetic sendBoom (Lorg/bukkit/entity/Player;)V {
-        parameters: { p },
+    .method private handleLaser ()V {
+        parameters: { this },
         code: {
-            aload p
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+            dup
+            astore bee
+            invokeinterface org/bukkit/entity/Bee.getLocation ()Lorg/bukkit/Location;
+
+            ldc 20.0
+            invokevirtual org/bukkit/Location.getNearbyPlayers (D)Ljava/util/Collection;
+            dup
+            aload this
+
+            invokedynamic accept (Lnet/strokkur/explodinglasershootingbees/listeners/BeeRunnable;)Ljava/util/function/Consumer; LambdaMetafactory.metafactory {
+                (Ljava/lang/Object;)V,
+                {
+                    invokevirtual,
+                    net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.fireLaser,
+                    (Lorg/bukkit/entity/Player;)V
+                },
+                (Lorg/bukkit/entity/Player;)V
+            }
+            invokeinterface java/util/Collection.forEach (Ljava/util/function/Consumer;)V
+
+            invokeinterface java/util/Collection.isEmpty ()Z
+            ifeq RETURN
+
+            aload bee
+            dup
+            invokeinterface org/bukkit/entity/Bee.getAnger ()I
+            sipush 300
+            iadd
+            invokeinterface org/bukkit/entity/Bee.setAnger (I)V
+        RETURN:
+            return
+        }
+    }
+
+    .method private static synthetic sendBoom (Lorg/bukkit/entity/Player;)V {
+        parameters: { player },
+        code: {
+            aload player
             ldc "<b><shadow:white><i><yellow>B<c:black>O</c>O<c:black>O</c>O<c:black>O</c>O<black>M</b>"
             invokeinterface org/bukkit/entity/Player.sendRichMessage (Ljava/lang/String;)V
+            return
+        }
+    }
+
+    .method private synthetic fireLaser (Lorg/bukkit/entity/Player;)V {
+        parameters: { this, player },
+        code: {
+            aload player
+            invokeinterface org/bukkit/entity/Player.getLocation ()Lorg/bukkit/Location;
+            aload this
+            getfield net/strokkur/explodinglasershootingbees/listeners/BeeRunnable.bee Lorg/bukkit/entity/Bee;
+            invokeinterface org/bukkit/entity/Bee.getLocation ()Lorg/bukkit/Location;
+            dup
+            astore beeLoc
+
+            invokevirtual org/bukkit/Location.subtract (Lorg/bukkit/Location;)Lorg/bukkit/Location;
+            ldc 0.01
+            invokevirtual org/bukkit/Location.multiply (D)Lorg/bukkit/Location;
+            astore vec
+
+            iconst_0
+            istore iteration
+
+            // Prepare particle
+            getstatic org/bukkit/Particle.DUST_COLOR_TRANSITION Lorg/bukkit/Particle;
+            invokevirtual org/bukkit/Particle.builder ()Lcom/destroystokyo/paper/ParticleBuilder;
+
+            iconst_5
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.count (I)Lcom/destroystokyo/paper/ParticleBuilder;
+
+            iconst_1
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.force (Z)Lcom/destroystokyo/paper/ParticleBuilder;
+
+            ldc 0xFF0000
+            ldc 0xFFAA00
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.colorTransition (II)Lcom/destroystokyo/paper/ParticleBuilder;
+
+            ldc 0.025
+            ldc 0.025
+            ldc 0.025
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.offset (DDD)Lcom/destroystokyo/paper/ParticleBuilder;
+
+        SPAWN_PARTICLE:
+            aload beeLoc
+            aload vec
+            invokevirtual org/bukkit/Location.add (Lorg/bukkit/Location;)Lorg/bukkit/Location;
+
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.location (Lorg/bukkit/Location;)Lcom/destroystokyo/paper/ParticleBuilder;
+
+            bipush 128
+            iconst_1
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.receivers (IZ)Lcom/destroystokyo/paper/ParticleBuilder;
+
+            invokevirtual com/destroystokyo/paper/ParticleBuilder.spawn ()Lcom/destroystokyo/paper/ParticleBuilder;
+
+            iinc iteration 1
+            iload iteration
+            ldc 100
+            if_icmple SPAWN_PARTICLE
+
+            // Damage the player
+            aload player
+            ldc 5.0
+            invokeinterface org/bukkit/entity/Player.damage (D)V
+
             return
         }
     }
